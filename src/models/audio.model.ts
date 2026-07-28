@@ -12,7 +12,8 @@ const AudioSchema = new Schema<IAudioDoc>({
   language: { type: String, default: 'English', index: true },
   featured: { type: Boolean, default: false, index: true },
   trending: { type: Boolean, default: false, index: true },
-  published: { type: Boolean, default: true, index: true }
+  published: { type: Boolean, default: true, index: true },
+  lyrics: { type: String, default: '' }
 }, { timestamps: true });
 
 // Multi-key/Text indexes for fast searching and filtering

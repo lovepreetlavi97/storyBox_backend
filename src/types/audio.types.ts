@@ -12,6 +12,7 @@ export interface IAudioDoc extends Document {
   featured: boolean;
   trending: boolean;
   published: boolean;
+  lyrics?: string;
   createdAt: Date;
   updatedAt: Date;
 }

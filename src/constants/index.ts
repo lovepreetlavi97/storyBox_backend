@@ -11,7 +11,7 @@ export const MESSAGES = {
   UNAUTHORIZED: 'Unauthorized: Invalid or expired token',
   INVALID_CREDENTIALS: 'Invalid username or password',
   NO_FILE_UPLOADED: 'No file uploaded',
-  INVALID_AUDIO_FORMAT: 'Only audio files (mp3, m4a, wav, ogg) are supported',
+  INVALID_AUDIO_FORMAT: 'Only audio/video files (mp3, m4a, wav, ogg, mp4) are supported',
   CATEGORY_NOT_FOUND: 'Category not found',
   AUDIO_NOT_FOUND: 'Audio not found',
   BANNER_NOT_FOUND: 'Banner not found',

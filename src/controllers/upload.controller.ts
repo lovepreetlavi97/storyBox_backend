@@ -29,7 +29,7 @@ export const uploadController = {
     }
 
     const ext = path.extname(data.filename).toLowerCase();
-    if (ext !== '.mp3' && ext !== '.m4a' && ext !== '.wav' && ext !== '.ogg') {
+    if (ext !== '.mp3' && ext !== '.m4a' && ext !== '.wav' && ext !== '.ogg' && ext !== '.mp4') {
       return reply.status(HTTP_STATUS.BAD_REQUEST).send({ success: false, error: MESSAGES.INVALID_AUDIO_FORMAT });
     }
 
