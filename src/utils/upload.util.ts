@@ -18,14 +18,24 @@ export async function uploadToS3(fileBuffer: Buffer, filename: string, mimeType:
   const bucketName = config.aws.s3Bucket;
   const key = `uploads/${subfolder}/${filename}`;
 
-  const command = new PutObjectCommand({
-    Bucket: bucketName,
-    Key: key,
-    Body: fileBuffer,
-    ContentType: mimeType,
+  const upload = new Upload({
+    client: s3Client,
+    params: {
+      Bucket: bucketName,
+      Key: key,
+      Body: fileBuffer,
+      ContentType: mimeType,
+    }
   });
 
-  await s3Client.send(command);
+  upload.on('httpUploadProgress', (progress) => {
+    const loaded = progress.loaded || 0;
+    const total = progress.total || 0;
+    const percentage = total > 0 ? Math.round((loaded / total) * 100) : 0;
+    console.log(`[S3 Upload] Key: ${key} - ${percentage}% (${loaded}/${total} bytes)`);
+  });
+
+  await upload.done();
   return `https://${bucketName}.s3.${config.aws.region}.amazonaws.com/${key}`;
 }
 
