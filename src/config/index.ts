@@ -10,11 +10,13 @@ export const config = {
   adminUsername: process.env.ADMIN_USERNAME || 'admin',
   adminPassword: process.env.ADMIN_PASSWORD || 'adminpassword',
   cors: {
-    origins: [
+    origin: [
       process.env.WEBSITE_URL || 'https://storyhub.xpernex.com',
       process.env.ADMIN_URL || 'https://consolestoryhub.xpernex.com',
       'https://storyhub.xpernex.com',
       'https://consolestoryhub.xpernex.com',
+      'http://storyhub.xpernex.com',
+      'http://consolestoryhub.xpernex.com',
       'http://localhost:3000',
       'http://localhost:3001'
     ],
