@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 import { pipeline } from 'stream/promises';
-import { S3Client } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { config } from '../config/index.js';
 
@@ -14,40 +14,39 @@ const s3Client = new S3Client({
   }
 });
 
-export async function uploadToS3(fileStream: any, filename: string, mimeType: string, subfolder: string): Promise<string> {
+export async function uploadToS3(fileBuffer: Buffer, filename: string, mimeType: string, subfolder: string): Promise<string> {
   const bucketName = config.aws.s3Bucket;
   const key = `uploads/${subfolder}/${filename}`;
 
-  const upload = new Upload({
-    client: s3Client,
-    params: {
-      Bucket: bucketName,
-      Key: key,
-      Body: fileStream,
-      ContentType: mimeType,
-    }
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: key,
+    Body: fileBuffer,
+    ContentType: mimeType,
   });
 
-  await upload.done();
+  await s3Client.send(command);
   return `https://${bucketName}.s3.${config.aws.region}.amazonaws.com/${key}`;
 }
 
 export async function handleFileUpload(fileData: any, subfolder: string): Promise<string> {
   const ext = path.extname(fileData.filename).toLowerCase();
   const uniqueFilename = `${crypto.randomUUID()}${ext}`;
+  const buffer = await fileData.toBuffer();
 
   if (config.aws.accessKeyId && config.aws.secretAccessKey && config.aws.s3Bucket) {
     try {
-      return await uploadToS3(fileData.file, uniqueFilename, fileData.mimetype, subfolder);
-    } catch (s3Err) {
-      console.error('S3 Upload failed, falling back to local storage:', s3Err);
+      return await uploadToS3(buffer, uniqueFilename, fileData.mimetype, subfolder);
+    } catch (s3Err: any) {
+      console.error('S3 Upload Error:', s3Err);
+      throw new Error(`S3 Upload Failed: ${s3Err.message || s3Err}`);
     }
   }
 
   const uploadDir = path.join(config.uploads.dir, subfolder);
   await fs.promises.mkdir(uploadDir, { recursive: true });
   const filePath = path.join(uploadDir, uniqueFilename);
-  await pipeline(fileData.file, fs.createWriteStream(filePath));
+  await fs.promises.writeFile(filePath, buffer);
   return `/uploads/${subfolder}/${uniqueFilename}`;
 }
 
