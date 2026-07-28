@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
-import { CategoryModel, AudioModel, BannerModel, SettingsModel } from './models/index.js';
+import { CategoryModel, AudioModel, BannerModel, SettingsModel, AdminModel } from './models/index.js';
+import { hashPassword } from './utils/auth.util.js';
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://lvprimex:Lovepreet697@cluster0.ozxwm1u.mongodb.net/storybox?appName=Cluster0';
 
@@ -19,8 +20,17 @@ async function seed() {
   try { await AudioModel.collection.drop(); } catch (e) {}
   try { await BannerModel.collection.drop(); } catch (e) {}
   try { await SettingsModel.collection.drop(); } catch (e) {}
+  try { await AdminModel.collection.drop(); } catch (e) {}
 
-  console.log('Collections cleared. Inserting categories...');
+  console.log('Collections cleared. Inserting Admin user...');
+  await new AdminModel({
+    username: 'xpernexadmin',
+    email: 'xpernexadmin@gmail.com',
+    passwordHash: hashPassword('xpernex2026')
+  }).save();
+  console.log('Admin user xpernexadmin@gmail.com created successfully.');
+
+  console.log('Inserting categories...');
   const catSelfHelp = await new CategoryModel({
     name: 'Self Help & Mindset',
     slug: 'self-help-mindset',

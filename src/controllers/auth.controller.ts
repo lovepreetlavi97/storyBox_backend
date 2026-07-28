@@ -5,7 +5,7 @@ import { HTTP_STATUS } from '../constants/index.js';
 export const authController = {
   async login(request: FastifyRequest, reply: FastifyReply) {
     const { username, password } = request.body as any;
-    const result = authService.login(username, password);
+    const result = await authService.login(username, password);
 
     if (result.success) {
       return result;
