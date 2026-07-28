@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { categoryService } from '../services/index.js';
 import { validateCategoryInput } from '../validations/index.js';
-import { getCached, setCache } from '../utils/cache.util.js';
+import { getCached, setCache, clearCache } from '../utils/cache.util.js';
 import { HTTP_STATUS, MESSAGES } from '../constants/index.js';
 
 export const categoryController = {
@@ -29,6 +29,7 @@ export const categoryController = {
 
     try {
       const category = await categoryService.create(request.body as any);
+      clearCache();
       return { success: true, data: category };
     } catch (err: any) {
       return reply.status(HTTP_STATUS.BAD_REQUEST).send({ success: false, error: err.message || 'Error creating category' });
@@ -42,6 +43,7 @@ export const categoryController = {
       if (!category) {
         return reply.status(HTTP_STATUS.NOT_FOUND).send({ success: false, error: MESSAGES.CATEGORY_NOT_FOUND });
       }
+      clearCache();
       return { success: true, data: category };
     } catch (err: any) {
       return reply.status(HTTP_STATUS.BAD_REQUEST).send({ success: false, error: err.message || 'Error updating category' });
@@ -55,6 +57,7 @@ export const categoryController = {
       if (!category) {
         return reply.status(HTTP_STATUS.NOT_FOUND).send({ success: false, error: MESSAGES.CATEGORY_NOT_FOUND });
       }
+      clearCache();
       return { success: true, message: MESSAGES.CATEGORY_DELETED };
     } catch (err: any) {
       return reply.status(HTTP_STATUS.BAD_REQUEST).send({ success: false, error: err.message });
