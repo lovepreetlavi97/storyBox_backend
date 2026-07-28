@@ -50,6 +50,11 @@ export function createApp(): FastifyInstance {
     return { status: 'OK', message: 'StoryHub API Server is healthy' };
   });
 
+  // Root check route
+  app.get('/', async () => {
+    return { status: 'OK', message: 'StoryHub API Server is running' };
+  });
+
   // Register routes
   app.register(adminRoutes, { prefix: '/api/admin' });
   app.register(publicRoutes, { prefix: '/api/public' });
