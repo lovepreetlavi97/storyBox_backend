@@ -13,10 +13,12 @@ export function validateAudioInput(data: any): string | null {
     !data.slug ||
     !data.thumbnailUrl ||
     !data.audioUrl ||
-    !data.category ||
-    !data.language
+    !data.category
   ) {
     return 'Missing required fields';
+  }
+  if (!data.language) {
+    data.language = 'English';
   }
   return null;
 }

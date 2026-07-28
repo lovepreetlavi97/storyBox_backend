@@ -14,9 +14,9 @@ const s3Client = new S3Client({
   }
 });
 
-export async function uploadToS3(fileStream: any, filename: string, mimeType: string): Promise<string> {
+export async function uploadToS3(fileStream: any, filename: string, mimeType: string, subfolder: string): Promise<string> {
   const bucketName = config.aws.s3Bucket;
-  const key = `uploads/${mimeType.startsWith('audio/') ? 'audio' : 'images'}/${filename}`;
+  const key = `uploads/${subfolder}/${filename}`;
 
   const upload = new Upload({
     client: s3Client,
@@ -36,15 +36,19 @@ export async function handleFileUpload(fileData: any, subfolder: string): Promis
   const ext = path.extname(fileData.filename).toLowerCase();
   const uniqueFilename = `${crypto.randomUUID()}${ext}`;
 
-  if (config.isProduction) {
-    return await uploadToS3(fileData.file, uniqueFilename, fileData.mimetype);
-  } else {
-    const uploadDir = path.join(config.uploads.dir, subfolder);
-    await fs.promises.mkdir(uploadDir, { recursive: true });
-    const filePath = path.join(uploadDir, uniqueFilename);
-    await pipeline(fileData.file, fs.createWriteStream(filePath));
-    return `/uploads/${subfolder}/${uniqueFilename}`;
+  if (config.aws.accessKeyId && config.aws.secretAccessKey && config.aws.s3Bucket) {
+    try {
+      return await uploadToS3(fileData.file, uniqueFilename, fileData.mimetype, subfolder);
+    } catch (s3Err) {
+      console.error('S3 Upload failed, falling back to local storage:', s3Err);
+    }
   }
+
+  const uploadDir = path.join(config.uploads.dir, subfolder);
+  await fs.promises.mkdir(uploadDir, { recursive: true });
+  const filePath = path.join(uploadDir, uniqueFilename);
+  await pipeline(fileData.file, fs.createWriteStream(filePath));
+  return `/uploads/${subfolder}/${uniqueFilename}`;
 }
 
 export function cleanupLocalFile(relativeUrl?: string): void {

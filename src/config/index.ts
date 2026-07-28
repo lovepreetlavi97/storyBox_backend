@@ -14,11 +14,16 @@ export const config = {
       process.env.WEBSITE_URL || 'https://storyhub.xpernex.com',
       process.env.ADMIN_URL || 'https://consolestoryhub.xpernex.com',
       'https://storyhub.xpernex.com',
+      'https://storyhub.xpernex.com/',
       'https://consolestoryhub.xpernex.com',
+      'https://consolestoryhub.xpernex.com/',
       'http://storyhub.xpernex.com',
+      'http://storyhub.xpernex.com/',
       'http://consolestoryhub.xpernex.com',
+      'http://consolestoryhub.xpernex.com/',
       'http://localhost:3000',
-      'http://localhost:3001'
+      'http://localhost:3001',
+      /^https?:\/\/(console)?storyhub\.xpernex\.com\/?$/
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],

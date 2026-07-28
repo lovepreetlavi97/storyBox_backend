@@ -8,7 +8,7 @@ export interface IAudioDoc extends Document {
   audioUrl: string;
   duration: number;
   category: mongoose.Types.ObjectId;
-  language: string;
+  language?: string;
   featured: boolean;
   trending: boolean;
   published: boolean;

@@ -9,7 +9,7 @@ const AudioSchema = new Schema<IAudioDoc>({
   audioUrl: { type: String, required: true },
   duration: { type: Number, required: true, default: 0 },
   category: { type: Schema.Types.ObjectId, ref: 'Category', required: true, index: true },
-  language: { type: String, required: true, index: true },
+  language: { type: String, default: 'English', index: true },
   featured: { type: Boolean, default: false, index: true },
   trending: { type: Boolean, default: false, index: true },
   published: { type: Boolean, default: true, index: true }
