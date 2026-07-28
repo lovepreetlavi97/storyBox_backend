@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
-import { CategoryModel, AudioModel, BannerModel, SettingsModel } from './models.js';
+import { CategoryModel, AudioModel, BannerModel, SettingsModel } from './models/index.js';
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://lvprimex:Lovepreet697@cluster0.ozxwm1u.mongodb.net/storybox?appName=Cluster0';
 
@@ -102,7 +102,7 @@ async function seed() {
     {
       title: 'Listen to Atomic Habits (Special Edition)',
       description: 'Discover how small daily adjustments lead to huge long-term results. Stream the sci-fi adaptation summary.',
-      imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=3000', // 4K Space Galaxy!
+      imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=3000',
       linkType: 'audio',
       linkValue: 'atomic-habits-space-edition',
       published: true
@@ -110,7 +110,7 @@ async function seed() {
     {
       title: 'Futuristic Wealth Creation Guides',
       description: 'Explore our personal finance audiobook category. Learn strategies to optimize capital and digital assets.',
-      imageUrl: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=3000', // 4K Skyline
+      imageUrl: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=3000',
       linkType: 'category',
       linkValue: 'wealth-finance',
       published: true
@@ -118,7 +118,7 @@ async function seed() {
     {
       title: 'Discover Cyberpunk Stories',
       description: 'Immerse yourself in neon-drenched Sci-Fi chronicles. Stream full chapters on the sticky bottom player.',
-      imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=3000', // 4K Abstract
+      imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=3000',
       linkType: 'category',
       linkValue: 'scifi-cyberpunk',
       published: true
