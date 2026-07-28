@@ -73,6 +73,7 @@ export function verifyToken(authHeader?: string): boolean {
 
 // Authentication hook
 async function authenticate(request: FastifyRequest, reply: FastifyReply) {
+  if (request.url.includes('/login')) return;
   const isAuthorized = verifyToken(request.headers.authorization);
   if (!isAuthorized) {
     reply.status(401).send({ success: false, error: 'Unauthorized: Invalid or expired token' });
