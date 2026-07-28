@@ -129,16 +129,16 @@ async function seed() {
 
   console.log('Inserting initial Settings...');
   await new SettingsModel({
-    appTitle: 'StoryBox',
-    contactEmail: 'support@storybox.com',
+    appTitle: 'StoryHub',
+    contactEmail: 'support@storyhub.com',
     socialLinks: {
-      facebook: 'https://facebook.com/storybox',
-      youtube: 'https://youtube.com/storybox',
-      instagram: 'https://instagram.com/storybox',
-      twitter: 'https://twitter.com/storybox',
-      linkedin: 'https://linkedin.com/company/storybox'
+      facebook: 'https://facebook.com/storyhub',
+      youtube: 'https://youtube.com/storyhub',
+      instagram: 'https://instagram.com/storyhub',
+      twitter: 'https://twitter.com/storyhub',
+      linkedin: 'https://linkedin.com/company/storyhub'
     },
-    supportText: 'StoryBox is a futuristic, lightweight, high-performance audio streaming platform. Designed for immersive story discovery.'
+    supportText: 'StoryHub is a futuristic, lightweight, high-performance audio streaming platform. Designed for immersive story discovery.'
   }).save();
 
   console.log('Database seeding successfully finished!');

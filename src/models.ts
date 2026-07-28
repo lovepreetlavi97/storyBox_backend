@@ -98,8 +98,8 @@ export interface ISettingsDoc extends Document {
 }
 
 const SettingsSchema = new Schema<ISettingsDoc>({
-  appTitle: { type: String, default: 'StoryBox' },
-  contactEmail: { type: String, default: 'support@storybox.com' },
+  appTitle: { type: String, default: 'StoryHub' },
+  contactEmail: { type: String, default: 'support@storyhub.com' },
   socialLinks: {
     facebook: { type: String, default: '' },
     youtube: { type: String, default: '' },
